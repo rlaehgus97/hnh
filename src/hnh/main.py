@@ -7,6 +7,8 @@ import numpy as np
 import random
 import io
 
+from .utils import get_max_label
+
 app = FastAPI()
 
 html = Jinja2Templates(directory="public")
@@ -20,9 +22,11 @@ async def root():
 
 @app.get("/")
 async def home(request: Request):
-    hotdog = "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQweb_7o7OrtlTP75oX2Q_keaoVYgAhMsYVp1sCafoNEdtSSaHps3n7NtNZwT_ufZGPyH7_9MFcao_r8QWr3Fdz17RitvZXLTU4dNsxr73m6V1scsH3_ZZHRw&usqp=CAE"
-    dog = "https://hearingsense.com.au/wp-content/uploads/2022/01/8-Fun-Facts-About-Your-Dog-s-Ears-1024x512.webp"
-    image_url = random.choice([hotdog, dog])
+    #hotdog = "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQweb_7o7OrtlTP75oX2Q_keaoVYgAhMsYVp1sCafoNEdtSSaHps3n7NtNZwT_ufZGPyH7_9MFcao_r8QWr3Fdz17RitvZXLTU4dNsxr73m6V1scsH3_ZZHRw&usqp=CAE"
+    #dog = "https://hearingsense.com.au/wp-content/uploads/2022/01/8-Fun-Facts-About-Your-Dog-s-Ears-1024x512.webp"
+    #image_url = random.choice([hotdog, dog])
+    question_init = "https://static.vecteezy.com/system/resources/thumbnails/022/493/595/small_2x/3d-question-mark-icon-or-ask-faq-answer-solution-isolated-on-transparent-background-file-png.png"
+    image_url = question_init
     return html.TemplateResponse("index.html",{"request":request, "image_url": image_url})
 
 @app.get("/predict")
@@ -47,8 +51,9 @@ async def create_upload_file(file: UploadFile):
         # 의존성 모듈 설치해서 오류없이 서버가동
 
         # if p 값이 배열과 같이 나오면 높은 확률의 값을 추출해서 리턴하기
+        maxlabel, maxscore = get_max_label(prediction)
 
-        return {"filename": file.filename, "예측 결과는..": prediction}
+        return {"filename": file.filename, "label": maxlabel, "score":maxscore}
 
     except Exception as e:
         return {"error": str(e)}

@@ -5,7 +5,14 @@ description = "hotdog"
 authors = [
     {name = "rlaehgus97", email = "starkim625@gmail.com"},
 ]
-dependencies = []
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.6",
+    "transformers>=4.45.0",
+    "torch>=2.4.1",
+    "Pillow>=10.4.0",
+    "python-multipart>=0.0.10",
+]
 requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "GNU"}
@@ -17,3 +24,8 @@ build-backend = "pdm.backend"
 
 [tool.pdm]
 distribution = true
+
+[tool.pdm.dev-dependencies]
+test = [
+    "pytest>=8.3.3",
+]

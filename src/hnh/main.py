@@ -7,9 +7,9 @@ app = FastAPI()
 async def root():
     return {"msg": "hello"}
 
-@app.predict("/")
+@app.get("/predict")
 async def predict():
-    hotdog = r.randint(1)
+    hotdog = r.randint(0,1)
     if hotdog == 0:
         return {"It is hotdog"}
     else:

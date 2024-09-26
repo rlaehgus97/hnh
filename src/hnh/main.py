@@ -48,7 +48,7 @@ async def create_upload_file(file: UploadFile):
 
         # if p 값이 배열과 같이 나오면 높은 확률의 값을 추출해서 리턴하기
 
-        return {"Hello": prediction}
+        return {"filename": file.filename, "예측 결과는..": prediction}
 
     except Exception as e:
         return {"error": str(e)}
